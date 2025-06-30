@@ -1,16 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My JavaScript Journey</title>
+    <title>JavaScript Practice</title>
 </head>
 <body>
-    <h1>Hello JavaScript!</h1>
-    <button onclick="sayHello()">Click Me!</button>
-    
+    <h1>JavaScript Practice</h1>
+    <input type="text" id="nameInput" placeholder="Enter your name">  
+    <button onclick="greetUser()">Greet Me!</button>
+    <p id="output"> </p>   
+
+    <hr>
+    <h2>Greeting Counter</h2>
+    <p>You've been greeted: <span id="counter">0</span> times</p>
+    <button onclick="incrementCounter()">Count Greeting</button>
+    <button onclick="resetCounter()">Reset Counter</button>
+
     <script>
-        function sayHello() {
-            alert("Hello from JavaScript!");
+        let greetingCount = 0;
+        
+        function greetUser() {
+
+            let username= document.getElementById('nameInput').value;
+
+            let message="Hello, " + username + "! Welcome to Javascript";
+
+            document.getElementById('output').innerHTML = message;
         }
+
+        function incrementCounter() {
+            greetingCount = greetingCount + 1; 
+            document.getElementById('counter').innerHTML = greetingCount;
+        }
+
+        function resetCounter() {
+            greetingCount = 0
+            document.getElementById('counter').innerHTML = greetingCount;
+        }
+
     </script>
 </body>
 </html>
