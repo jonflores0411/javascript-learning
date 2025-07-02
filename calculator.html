@@ -27,27 +27,92 @@
     <input type="text" id="display" value="0" readonly>
     <br>
     
-    <button>7</button>
-    <button>8</button>
-    <button>9</button>
+    <button onclick="buttonPressed('7')">7</button>
+    <button onclick="buttonPressed('8')">8</button>
+    <button onclick="buttonPressed('9')">9</button>
     <br>
     
-    <button>4</button>
-    <button>5</button>
-    <button>6</button>
+    <button onclick="buttonPressed('4')">4</button>
+    <button onclick="buttonPressed('5')">5</button>
+    <button onclick="buttonPressed('6')">6</button>
     <br>
     
-    <button>1</button>
-    <button>2</button>
-    <button>3</button>
+    <button onclick="buttonPressed('1')">1</button>
+    <button onclick="buttonPressed('2')">2</button>
+    <button onclick="buttonPressed('3')">3</button>
     <br>
     
-    <button>0</button>
-    <button>+</button>
-    <button>=</button>
+    <button onclick="buttonPressed('0')">0</button>
+    <button onclick="buttonPressed('+')">+</button>
+    <button onclick="buttonPressed('=')">=</button>
     
     <script>
         // Your JavaScript functions will go here
+        let str = '';
+        let l2ndStr = false;
+        let val1 = 0;
+        let val2 = 0;
+        let result = 0;
+        let lastOper = '';
+
+        function buttonPressed(btn) {
+            if (!(btn === '+' || btn === '-' )) {
+                str = str + btn;
+                document.getElementById('display').value = str;
+            }
+            
+            switch (btn) {
+                case '1':
+                    break;
+                case '+' :
+                    lastOper = '+';
+                    if (l2ndStr) {
+                        val2 = parseFloat(str);
+                        result = val1 + val2;
+                        str = result.toString();    
+                        document.getElementById('display').value = str;
+                        val1 = parseFloat(str);
+                    }
+                    else {
+                        l2ndStr = true;
+                        val1 = parseFloat(str);
+                    }
+                    str = '';
+                    break;
+                case '-' :
+                    lastOper = '-';
+                    if (l2ndStr) {
+                        val2 = parseFloat(str);
+                        result = val1 - val2;
+                        str = result.toString();        
+                        document.getElementById('display').value = str;
+                        val1 = parseFloat(str);
+                    }
+                    else {
+                        l2ndStr = true;
+                        val1 = parseFloat(str);
+                        val2 = 0;
+                        str = '';
+                    }
+                    str = '';
+                    break;
+                case '=' :
+                    val2 = parseFloat(str);
+                    switch (lastOper) {
+                        case '+' :
+                            result = val1 + val2;
+                        break;
+                        case '-' :
+                            result = val1 - val2;
+                        break;
+                    }
+                    
+                    str = result.toString();        
+                    document.getElementById('display').value = str;
+                    val1 = parseFloat(str);
+                    break;
+            }
+        }
     </script>
 </body>
 </html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <style>
+        .todo-item {
+            margin: 5px 0;
+        }
+        
+        button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Todo List</h1>
+    
+    <input type="text" id="todoInput" placeholder="Enter new todo item">
+    <button onclick="createElements()">Add</button>
+    
+    <br><br>
+    
+    <div id="todoList">
+        <!-- Todo items will appear here -->
+    </div>
+    
+    <br>
+    <button onclick="deleteSelected()">Delete Selected</button>
+    
+    <script>
+        // Your JavaScript will go here
+         let contToDoList = document.getElementById('todoList');
+         let myArray = [];
+
+        function createElements() {
+            let valToDoList = document.getElementById('todoInput').value;
+
+            // only perform this if there is anything to add
+            if (valToDoList !== '') {
+                let contDiv = document.createElement('div')
+
+                //populate array
+                myArray.push({checked:false, toDoText: valToDoList})
+
+                 let nArrayLength = myArray.length-1;
+
+                // Create checkbox
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = false;
+                checkbox.onclick = function() { checkUncheck(nArrayLength); };
+
+                // Create text (span or div)
+                let textElement = document.createElement('span');
+                textElement.textContent = valToDoList;
+
+                // Create delete button
+                let deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.onclick = function() { deleteItem(nArrayLength); };
+
+                contDiv.appendChild(checkbox);  
+                contDiv.appendChild(textElement);  
+                contDiv.appendChild(deleteButton);  
+
+                contToDoList.appendChild(contDiv); 
+
+                // empty textbox after adding to array
+                document.getElementById('todoInput').value = '';
+            }
+        }
+
+        function deleteItem(nIndex) {
+            contToDoList.removeChild(contToDoList.children[nIndex]);
+            myArray.splice(nIndex, 1);  
+            
+        }
+
+        function deleteSelected() {
+            for (let i = myArray.length - 1; i >= 0; i--) {
+                if (myArray[i].checked) {
+                    contToDoList.removeChild(contToDoList.children[i]);
+                    myArray.splice(i,1);
+                }
+                
+            }
+        }
+
+        function checkUncheck(nIndex) {
+            let checkbox = contToDoList.children[nIndex].children[0];
+            myArray[nIndex].checked = checkbox.checked;
+        }
+        
+    </script>
+</body>
+</html>
