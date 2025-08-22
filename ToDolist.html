@@ -73,24 +73,73 @@
         }
 
         function deleteItem(nIndex) {
-            contToDoList.removeChild(contToDoList.children[nIndex]);
-            myArray.splice(nIndex, 1);  
+            //contToDoList.removeChild(contToDoList.children[nIndex]);
+            //revise the above, since we will refresh, we simply remove the entire ContToDoList
+            myArray.splice(nIndex, 1);
+
+            refreshContToDoList();
             
         }
 
         function deleteSelected() {
+            //ShowOnConsole();
             for (let i = myArray.length - 1; i >= 0; i--) {
                 if (myArray[i].checked) {
-                    contToDoList.removeChild(contToDoList.children[i]);
+                    //contToDoList.removeChild(contToDoList.children[i]);
+                    // we simply remove each child, since we will do a refresh
+                    // this is taken care of now by refreshContToDoList()
                     myArray.splice(i,1);
                 }
-                
             }
+
+            refreshContToDoList();
         }
 
         function checkUncheck(nIndex) {
-            let checkbox = contToDoList.children[nIndex].children[0];
-            myArray[nIndex].checked = checkbox.checked;
+            // Browser already toggled the checkbox visually       
+            myArray[nIndex].checked = contToDoList.children[nIndex].children[0].checked;
+        }
+
+        function refreshContToDoList() {
+            // remove everything inside contToDoList
+            while (contToDoList.children.length > 0) {
+                contToDoList.removeChild(contToDoList.children[0]);
+            }
+
+            for (let i = 0; i <= myArray.length - 1; i++) {
+                // rebuild it
+                let contDiv = document.createElement('div')
+
+                //get updated array length
+                let nArrayLength = myArray.length-1;
+
+                // Create checkbox
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = myArray[i].checked; //FOR FIX
+                checkbox.onclick = function() { checkUncheck(i); }; //FOR FIX
+
+                // Create text (span or div)
+                let textElement = document.createElement('span');
+                textElement.textContent = myArray[i].toDoText; //FOR FIX
+
+                // Create delete button
+                let deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.onclick = function() { deleteItem(i); }; //FOR FIX
+
+                contDiv.appendChild(checkbox);  
+                contDiv.appendChild(textElement);  
+                contDiv.appendChild(deleteButton);  
+
+                contToDoList.appendChild(contDiv); 
+            }
+        }
+
+        function ShowOnConsole(){
+            for (let i = 0; i <= myArray.length - 1; i++) {
+                console.log(myArray[i].checked, myArray[i].toDoText);
+            }
         }
         
     </script>
